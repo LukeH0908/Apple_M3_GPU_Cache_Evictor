@@ -12,7 +12,6 @@ kernel void in_shader_pump_probe_linear(
     // Configuration
     constant uint &pump_element_count [[buffer(3)]],
     
-    // --- CHANGE: Added stop_flag back ---
     threadgroup atomic_uint *timer [[threadgroup(0)]],
     threadgroup atomic_uint *stop_flag [[threadgroup(1)]],
 
@@ -116,7 +115,6 @@ kernel void in_shader_pump_probe_random(
         // 1. Prime the cache
         prime_result = probeBuffer[0];
 
-        // --- CHANGE IS HERE: The "Pump" phase is now random access ---
         uint temp_pump_sum = 0;
         uint random_seed = tid * 2654435761; // Seed the PRNG
         
