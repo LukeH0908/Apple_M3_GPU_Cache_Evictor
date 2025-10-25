@@ -30,5 +30,5 @@ To change the range of the buffer (in MB) to test with, manually adjust the line
 ```
 let testSizesInKB = Array(stride(from:1, through: 4*1024, by: 1))
 ```
-in ```Renderer.swift```
+in the file ```Renderer.swift``` within the directory ```GPUCacheEvictor```
 
