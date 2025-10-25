@@ -47,7 +47,7 @@ class Renderer: ObservableObject {
         let testSizesInKB = Array(stride(from:1, through: 4*1024, by: 1))
         
         var resultsLog = ""
-        resultsLog += "Testing Range: 4 MB - 8 MB (Step: 1 KB) using \(kernelToUse.rawValue)\n\n"
+        resultsLog += "Testing Range: \(testSizesInKB[0]) KB - \(testSizesInKB[testSizesInKB.count-1]) KB (Step: 1 KB) using \(kernelToUse.rawValue)\n\n"
         resultsLog += "Eviction Buffer Size (KB) | Total Time |  Latency (Δ)\n"
         resultsLog += "--------------------------------------------------\n"
         

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>logFormatVersion</key>
+	<integer>11</integer>
+	<key>logs</key>
+	<dict>
+		<key>90F25630-01C0-4FB7-999F-1C0C56057F5A</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>90F25630-01C0-4FB7-999F-1C0C56057F5A.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>0</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>0</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>GPUCacheEvictor project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>GPUCacheEvictor</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building project GPUCacheEvictor with scheme GPUCacheEvictor</string>
+			<key>timeStartedRecording</key>
+			<real>783047967.59084702</real>
+			<key>timeStoppedRecording</key>
+			<real>783047977.14269102</real>
+			<key>title</key>
+			<string>Building project GPUCacheEvictor with scheme GPUCacheEvictor</string>
+			<key>uniqueIdentifier</key>
+			<string>90F25630-01C0-4FB7-999F-1C0C56057F5A</string>
+		</dict>
+	</dict>
+</dict>
+</plist>
