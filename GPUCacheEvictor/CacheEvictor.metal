@@ -56,8 +56,8 @@ kernel void in_shader_pump_probe_linear(
         uint duration = endTime - startTime;
         
         result_data[1] = prime_result;
-        result_data[2] = temp_pump_sum + duration;
-        result_data[3] = probe_result;
+        result_data[2] = duration;
+        result_data[3] = temp_pump_sum + probe_result;
     }
     // --- TIMER THREADS ---
     else if (tid == 0){
@@ -139,8 +139,8 @@ kernel void in_shader_pump_probe_random(
         uint duration = endTime - startTime;
         
         result_data[1] = prime_result;
-        result_data[2] = temp_pump_sum + duration; // Keep sum to prevent optimization
-        result_data[3] = probe_result;
+        result_data[2] = temp_pump_sum - temp_pump_sum + duration; // Keep sum to prevent optimization
+        result_data[3] = temp_pump_sum + probe_result;
     }
     // --- TIMER THREAD ---
     else if (tid == 0){

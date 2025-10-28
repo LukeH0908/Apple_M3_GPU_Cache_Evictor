@@ -44,7 +44,7 @@ class Renderer: ObservableObject {
 
     // --- CHANGE 4: The function now takes an argument to select the kernel ---
     func runExperiment(kernelToUse: KernelType) -> String {
-        let testSizesInKB = Array(stride(from:1, through: 4*1024, by: 1))
+        let testSizesInKB = Array(stride(from:1, through: 8*1024, by: 1))
         
         var resultsLog = ""
         resultsLog += "Testing Range: \(testSizesInKB[0]) KB - \(testSizesInKB[testSizesInKB.count-1]) KB (Step: 1 KB) using \(kernelToUse.rawValue)\n\n"
@@ -70,6 +70,9 @@ class Renderer: ObservableObject {
             case .random:
                 commandEncoder.setComputePipelineState(randomScanPipeline)
             }
+            
+            memset(probeBuffer.contents(), 2, probeBuffer.length)
+            memset(pumpBuffer.contents(), 2, pumpBuffer.length)
             
             commandEncoder.setBuffer(probeBuffer, offset: 0, index: 0)
             commandEncoder.setBuffer(pumpBuffer, offset: 0, index: 1)
