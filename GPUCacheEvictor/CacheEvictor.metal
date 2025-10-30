@@ -32,6 +32,8 @@ kernel void in_shader_pump_probe_linear(
     // --- WORKER THREAD ---
     if (tid == 64) {
         // 1. Prime and Pump
+        
+        
         prime_result = probeBuffer[0];
 
         uint temp_pump_sum = 0;
@@ -78,7 +80,7 @@ kernel void in_shader_pump_probe_linear(
 
 // Helper function for pseudo-random number generation
 uint lcg(thread uint &seed) {
-    seed = (1664525 * seed + 1013904223);
+    seed = (1664543 * seed + 1013904223);
     return seed;
 }
 
@@ -116,13 +118,13 @@ kernel void in_shader_pump_probe_random(
         prime_result = probeBuffer[0];
 
         uint temp_pump_sum = 0;
-        uint random_seed = tid * 2654435761; // Seed the PRNG
+        //uint random_seed = tid * 2654435761; // Seed the PRNG
         
-        // We will perform a number of random reads equal to 10 full scans of the buffer.
-        // This keeps the workload comparable to your original nested loop.
-        for (uint i = 0; i < (pump_element_count / 16) * 10; ++i) {
-            uint random_index = lcg(random_seed) % pump_element_count;
-            temp_pump_sum += pumpBuffer[random_index];
+        
+        
+        for (uint i = 0; i < pump_element_count/16; i ++) {
+            uint random_index = lcg(i) % (pump_element_count/16);
+            temp_pump_sum += pumpBuffer[random_index * 16];
         }
         
         simdgroup_barrier(mem_flags::mem_threadgroup);
@@ -139,7 +141,7 @@ kernel void in_shader_pump_probe_random(
         uint duration = endTime - startTime;
         
         result_data[1] = prime_result;
-        result_data[2] = temp_pump_sum - temp_pump_sum + duration; // Keep sum to prevent optimization
+        result_data[2] = duration; // Keep sum to prevent optimization
         result_data[3] = temp_pump_sum + probe_result;
     }
     // --- TIMER THREAD ---
