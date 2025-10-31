@@ -10,6 +10,8 @@ enum RendererError: Error {
 enum KernelType: String, CaseIterable, Identifiable {
     case linear = "Linear Pump"
     case random = "Random Pump"
+    case linearPC = "Linear Pump Pointer Chase"
+    case randomPC = "Random Pump Pointer Chase"
     var id: String { self.rawValue }
 }
 
@@ -21,6 +23,8 @@ class Renderer: ObservableObject {
     // --- CHANGE 1: Store two separate pipeline states ---
     let linearScanPipeline: MTLComputePipelineState
     let randomScanPipeline: MTLComputePipelineState
+    let linearPCPipeline: MTLComputePipelineState
+    let randomPCPipeline: MTLComputePipelineState
 
     init() throws {
         guard let device = MTLCreateSystemDefaultDevice() else { throw RendererError.metalNotSupported }
@@ -40,6 +44,15 @@ class Renderer: ObservableObject {
         let randomKernelName = "in_shader_pump_probe_random"
         guard let randomFunction = library.makeFunction(name: randomKernelName) else { throw RendererError.kernelFunctionNotFound(randomKernelName) }
         self.randomScanPipeline = try device.makeComputePipelineState(function: randomFunction)
+        
+        let linearKernelPC = "in_shader_pump_probe_linear_pc"
+        guard let linearPCFunction = library.makeFunction(name: linearKernelPC) else {throw RendererError.kernelFunctionNotFound(linearKernelPC)}
+        self.linearPCPipeline = try device.makeComputePipelineState(function: linearPCFunction)
+        
+        let randomKernelPC = "in_shader_pump_probe_random_pc"
+        guard let linearPCFunction = library.makeFunction(name: randomKernelPC) else {throw RendererError.kernelFunctionNotFound(randomKernelPC)}
+        self.randomPCPipeline = try device.makeComputePipelineState(function: linearPCFunction)
+        
     }
 
     // --- CHANGE 4: The function now takes an argument to select the kernel ---
@@ -69,10 +82,14 @@ class Renderer: ObservableObject {
                 commandEncoder.setComputePipelineState(linearScanPipeline)
             case .random:
                 commandEncoder.setComputePipelineState(randomScanPipeline)
+            case .linearPC:
+                commandEncoder.setComputePipelineState(linearPCPipeline)
+            case .randomPC:
+                commandEncoder.setComputePipelineState(randomPCPipeline)
             }
             
-            memset(probeBuffer.contents(), 2, probeBuffer.length)
-            memset(pumpBuffer.contents(), 2, pumpBuffer.length)
+//            memset(probeBuffer.contents(), 2, probeBuffer.length)
+//            memset(pumpBuffer.contents(), 2, pumpBuffer.length)
             
             commandEncoder.setBuffer(probeBuffer, offset: 0, index: 0)
             commandEncoder.setBuffer(pumpBuffer, offset: 0, index: 1)
