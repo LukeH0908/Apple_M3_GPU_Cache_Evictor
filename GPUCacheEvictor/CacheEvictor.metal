@@ -31,6 +31,7 @@ kernel void in_shader_pump_probe_linear(
 
     // --- WORKER THREAD ---
     if (tid == 64) {
+        
         // 1. Prime and Pump
         
         
@@ -78,11 +79,6 @@ kernel void in_shader_pump_probe_linear(
 }
 
 
-// Helper function for pseudo-random number generation
-uint lcg(thread uint &seed) {
-    seed = (1664543 * seed + 1013904223);
-    return seed;
-}
 
 kernel void in_shader_pump_probe_random(
     // Input Buffers
@@ -120,13 +116,23 @@ kernel void in_shader_pump_probe_random(
         uint temp_pump_sum = 0;
         //uint random_seed = tid * 2654435761; // Seed the PRNG
         
-        
-        
-        for (uint i = 0; i < pump_element_count/16; i ++) {
-            uint random_index = lcg(i) % (pump_element_count/16);
-            temp_pump_sum += pumpBuffer[random_index * 16];
+        const uint stride_in_elements = 16;
+        const uint num_cache_lines = pump_element_count / stride_in_elements;
+
+       
+        const uint prime_stride = 7919;
+
+        // Loop 10 times, as in your original code
+        for (uint i = 0; i < 10; i++) {
+            // This inner loop iterates from 0 to N-1
+            for (uint j = 0; j < num_cache_lines; j++) {
+                
+                uint random_line_index = (j * prime_stride) % num_cache_lines;
+                
+                // Access the start of that cache line
+                temp_pump_sum += pumpBuffer[random_line_index * stride_in_elements];
+            }
         }
-        
         simdgroup_barrier(mem_flags::mem_threadgroup);
         
         // 2. TIMED SECTION: Take before/after snapshots of the timer
@@ -155,6 +161,7 @@ kernel void in_shader_pump_probe_random(
             // (timer, 1, memory_order_relaxed);
         }
         
+        simdgroup_barrier(mem_flags::mem_threadgroup);
         result_data[0] = atomic_load_explicit(timer, memory_order_relaxed);
 //         result_data[0] = counter;
     }
