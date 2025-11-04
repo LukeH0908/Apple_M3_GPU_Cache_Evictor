@@ -322,7 +322,6 @@ kernel void in_shader_pump_probe_random_pc(
                 
                 // Access the start of that cache line
                 temp_pump_sum += random_line_index;
-                simdgroup_barrier(mem_flags::mem_threadgroup);
             }
         }
         simdgroup_barrier(mem_flags::mem_threadgroup);
