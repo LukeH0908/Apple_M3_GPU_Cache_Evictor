@@ -24,9 +24,9 @@ To run in terminal:
 ./build/Build/Products/Debug/GPUCacheEvictor.app/Contents/MacOS/GPUCacheEvictor
 ```
 
-There are 2 possible access patterns of the eviction buffer to choose from in the dropdown menu: Linear and Random.
+There are 4 possible access patterns of accessing the eviction buffer to choose from in the dropdown menu: Linear, Random, Linear (Pointer Chasing) and Random (Pointer Chasing).
 
-To change the range of the buffer (in MB) to test with, manually adjust the line (47):
+ To change the range of the buffer (in MB) to test with, manually adjust the line (47):
 ```
 let testSizesInKB = Array(stride(from:1, through: 4*1024, by: 1))
 ```
